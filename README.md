@@ -173,13 +173,3 @@ The business findings are descriptive and intended to guide further investigatio
 - Track experiments with MLflow and monitor drift after deployment.
 - Build a compact Streamlit decision tool for store and segment drill-down.
 
-## GitHub project summary
-
-Built a reproducible retail forecasting and product analytics pipeline on the Rossmann Store Sales dataset. The project compares time-aware baselines and LightGBM, audits performance across business segments, measures observational promotion lift, diagnoses sales spikes and drops, and generates an evidence-grounded model report for product and operations decisions.
-
-## Resume bullets
-
-- Built a leakage-safe sales forecasting pipeline over **1M+ store-day records across 1,115 stores**, engineering lag, rolling-window, promotion, holiday, competition, and seasonality features.
-- Compared historical-average, Ridge, and LightGBM models using a **42-day time-based holdout**, reducing RMSPE from **0.2356 to 0.1129 (52.1%)** with segment-level performance monitoring.
-- Estimated **41.7% average observational promotion lift** and used SHAP to identify 14-day sales lag, promotion status, and 1-day sales lag as the leading prediction drivers, translating findings into promotion experiment hypotheses.
-
