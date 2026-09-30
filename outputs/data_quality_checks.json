@@ -1,0 +1,9 @@
+{
+  "rows": 1017209,
+  "stores": 1115,
+  "start_date": "2013-01-01",
+  "end_date": "2015-07-31",
+  "duplicate_store_dates": 0,
+  "negative_sales_rows": 0,
+  "closed_store_positive_sales_rows": 0
+}

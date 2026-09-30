@@ -137,25 +137,25 @@ Historical promotion lift is useful for hypothesis generation, but it is not pro
 
 ## Results
 
-No performance numbers are claimed before the pipeline is run on the Kaggle files. After execution, this section should be updated from:
+The full pipeline was run on 1,017,209 store-day observations covering 1,115 stores. The validation window contains the final 42 days, from June 20 through July 31, 2015, and represents rolling one-day-ahead forecasts.
 
-- `outputs/metrics.json`
-- `reports/tables/model_comparison.csv`
-- `reports/tables/segment_performance.csv`
-- `reports/tables/promotion_lift.csv`
-- `reports/model_report.md`
+| Model | MAE | RMSE | RMSPE |
+| --- | ---: | ---: | ---: |
+| LightGBM | **480.75** | **754.88** | **0.1129** |
+| Ridge | 658.28 | 1,065.00 | 0.1732 |
+| Historical average | 1,078.85 | 1,544.00 | 0.2356 |
 
-This keeps the repository honest: every number presented to a recruiter can be traced to a saved artifact.
+LightGBM reduced RMSPE by **52.1%** relative to the historical-average baseline. Results are reproducible from `outputs/metrics.json`, `reports/tables/model_comparison.csv`, and `reports/model_report.md`.
 
 ## Business insights
 
-The automated report will populate evidence-backed findings after execution. The analysis is designed to answer:
+The business findings are descriptive and intended to guide further investigation and experiment design:
 
-- Which store segments benefit most from promotions?
-- Where does forecast error increase during holidays or promotion periods?
-- Are sales spikes explained by promotions, holidays, seasonality, or store mix?
-- Does competition distance have a stable relationship with sales after segmentation?
-- Which features most influence the model, and where should analysts investigate next?
+- Promotion store-days averaged **41.7% higher sales** than each store's non-promotion mean. This is observational lift, not a causal estimate.
+- Stores in the farthest competition-distance band showed the largest descriptive promotion lift at **46.9%**, compared with **39.5%** for the medium-distance band.
+- The highest-error validation cohort was the close competition-distance segment with **0.1244 RMSPE** across 11,844 store-days.
+- SHAP identified the 14-day sales lag, promotion status, 1-day sales lag, and 28-day rolling mean as the leading prediction drivers.
+- Promotions appeared on **53% of the 100 most extreme sales spikes**, compared with **21% of the 100 most extreme drops**. This association does not establish causality.
 
 ## Limitations
 
@@ -179,9 +179,7 @@ Built a reproducible retail forecasting and product analytics pipeline on the Ro
 
 ## Resume bullets
 
-Use the generated metrics to replace bracketed fields after running the full pipeline:
-
-- Built a leakage-safe retail forecasting pipeline across 1,000+ stores using Python, pandas, and LightGBM, comparing seasonal, regularized linear, and boosted-tree models with time-based validation and improving RMSPE from **[baseline]** to **[best model]**.
-- Designed a Product Data Science analytics layer to quantify observational promotion lift across store and assortment segments, diagnose sales spikes and drops, and translate model outputs into testable recommendations for promotion strategy.
-- Developed segment-level model monitoring and SHAP-based driver analysis across promotion, holiday, store-type, and competition cohorts, identifying **[highest-risk segment]** and reducing its forecast error by **[X% after iteration]**.
+- Built a leakage-safe sales forecasting pipeline over **1M+ store-day records across 1,115 stores**, engineering lag, rolling-window, promotion, holiday, competition, and seasonality features.
+- Compared historical-average, Ridge, and LightGBM models using a **42-day time-based holdout**, reducing RMSPE from **0.2356 to 0.1129 (52.1%)** with segment-level performance monitoring.
+- Estimated **41.7% average observational promotion lift** and used SHAP to identify 14-day sales lag, promotion status, and 1-day sales lag as the leading prediction drivers, translating findings into promotion experiment hypotheses.
 

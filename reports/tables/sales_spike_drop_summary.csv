@@ -1,0 +1,3 @@
+event_type,events,stores,median_deviation,promo_share,school_holiday_share,state_holiday_share
+drop,100,60,-0.9540473715490456,0.21,0.16,0.09
+spike,100,44,7.85052368767911,0.53,0.15,0.02

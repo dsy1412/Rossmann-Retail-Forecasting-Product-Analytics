@@ -83,8 +83,14 @@ def root_cause_events(frame: pd.DataFrame, max_events: int = 200) -> pd.DataFram
         "Assortment",
         "competition_band",
     ]
+    per_event_type = max(1, max_events // 2)
+    balanced_events = []
+    for event_type in ("drop", "spike"):
+        subset = events.loc[events["event_type"] == event_type]
+        balanced_events.append(subset.nlargest(per_event_type, "absolute_deviation"))
+
     return (
-        events.nlargest(max_events, "absolute_deviation")[columns]
+        pd.concat(balanced_events, ignore_index=True)[columns]
         .sort_values(["event_type", "sales_deviation_pct"])
         .reset_index(drop=True)
     )

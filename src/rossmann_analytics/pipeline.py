@@ -5,6 +5,8 @@ from pathlib import Path
 from typing import Any
 
 import joblib
+import numpy as np
+import pandas as pd
 
 from .analytics import promotion_lift_analysis, root_cause_events, root_cause_summary
 from .config import ProjectConfig
@@ -125,6 +127,7 @@ def run_pipeline(config: ProjectConfig | None = None) -> dict[str, Any]:
     save_feature_importance_figure(importance, config.figures_dir)
 
     shap_status = "disabled"
+    report_importance = importance
     if config.run_shap:
         try:
             shap_values, transformed, names = shap_values_for_tree_model(
@@ -133,6 +136,21 @@ def run_pipeline(config: ProjectConfig | None = None) -> dict[str, Any]:
                 random_state=config.random_state,
             )
             save_shap_summary(shap_values, transformed, names, config.figures_dir)
+            shap_importance = pd.DataFrame(
+                {
+                    "feature": names,
+                    "mean_absolute_shap": np.abs(shap_values).mean(axis=0),
+                }
+            ).sort_values("mean_absolute_shap", ascending=False)
+            shap_importance.to_csv(
+                config.tables_dir / "shap_importance.csv", index=False
+            )
+            normalized_shap = shap_importance.copy()
+            normalized_shap["importance"] = (
+                normalized_shap["mean_absolute_shap"]
+                / normalized_shap["mean_absolute_shap"].sum()
+            )
+            report_importance = normalized_shap[["feature", "importance"]]
             shap_status = "generated"
         except (ImportError, ValueError, RuntimeError) as exc:
             shap_status = f"skipped: {exc}"
@@ -158,7 +176,7 @@ def run_pipeline(config: ProjectConfig | None = None) -> dict[str, Any]:
         segments,
         promotion_lift,
         event_summary,
-        importance,
+        report_importance,
         cutoff,
         validation["Date"].max(),
         checks,

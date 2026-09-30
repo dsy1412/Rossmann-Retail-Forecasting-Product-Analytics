@@ -1,0 +1,28 @@
+{
+  "best_model": "lightgbm",
+  "validation_start": "2015-06-20",
+  "validation_end": "2015-07-31",
+  "validation_days": 42,
+  "sample_frac": 1.0,
+  "shap_status": "generated",
+  "models": [
+    {
+      "model": "lightgbm",
+      "mae": 480.7524121940396,
+      "rmse": 754.8832298730413,
+      "rmspe": 0.11285271790668666
+    },
+    {
+      "model": "ridge",
+      "mae": 658.2791611234353,
+      "rmse": 1065.0007953749569,
+      "rmspe": 0.17315038199327593
+    },
+    {
+      "model": "historical_average",
+      "mae": 1078.8511816308246,
+      "rmse": 1543.9994135431798,
+      "rmspe": 0.23560423801283747
+    }
+  ]
+}

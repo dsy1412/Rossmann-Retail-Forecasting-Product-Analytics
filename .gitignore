@@ -17,9 +17,6 @@ data/processed/*
 !data/processed/.gitkeep
 outputs/*
 !outputs/README.md
-reports/figures/*
-!reports/figures/.gitkeep
-reports/tables/*
-!reports/tables/.gitkeep
-reports/model_report.md
+!outputs/metrics.json
+!outputs/data_quality_checks.json
 
